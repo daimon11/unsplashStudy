@@ -5,12 +5,11 @@ import Main from './components/Main';
 import { updateToken } from './store/tokenReducer';
 import { getToken } from './api/token';
 import { useDispatch } from 'react-redux';
-import { store } from './store';
+
 
 const App = () => {
   const dispatch = useDispatch();
   dispatch(updateToken(getToken()));
-  store.dispatch
 
   return (
     <>

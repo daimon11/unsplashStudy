@@ -1,3 +1,4 @@
+export const API_URL_IMG = 'https://api.unsplash.com/photos?';
 export const API_URL_AUTH = 'https://unsplash.com/oauth/authorize?';
 export const REQUEST_TOKEN = 'https://unsplash.com/oauth/token';
 export const ACCESS_KEY = '3ciXuZCG29nCOavK_8i01rbgtyzEof7B1CkINzjUfFY';
