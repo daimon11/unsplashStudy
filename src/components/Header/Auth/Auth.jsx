@@ -5,7 +5,7 @@ import { urlAuth } from '../../../api/const';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { deleteToken } from '../../../store/tokenReducer';
-
+import { delToken } from '../../../api/token';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export const Auth = () => {
 
   const logOut = () => {
     console.log('выходим');
+    delToken();
     dispatch(deleteToken());
   };
 
