@@ -28,18 +28,21 @@ export const getPhotosAsync = () => (dispatch, getState) => {
 
   console.log('getPhotosAsync token', token);
 
-  if (!token) {
-    console.log('!!! нету токена');
-    axios.get(`${API_URL_IMG}client_id=${ACCESS_KEY}&per_page=20&order_by=popular`)
-      .then(response => {
-        console.log('images', response.data);
-        dispatch(getPhotosSucces([...response.data]));
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch(getPhotosError(error.message));
-      });
-  }
+
+  console.log('!!! нету токена');
+  axios.get(`${API_URL_IMG}client_id=${ACCESS_KEY}&per_page=20`, token ? {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  } : '')
+    .then(response => {
+      console.log('images', response.data);
+      dispatch(getPhotosSucces([...response.data]));
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch(getPhotosError(error.message));
+    });
 };
 
 

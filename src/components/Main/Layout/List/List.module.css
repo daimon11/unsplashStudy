@@ -3,4 +3,17 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 30px;
+  margin-bottom: 20px;
+}
+
+.btn_load {
+  background-color: gray;
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+}
+
+.center {
+  text-align: center;
 }
