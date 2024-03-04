@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { getPhotosAsync } from '../api/images';
 
-export function usePosts(limit = 20) {
-  const [ posts, setPosts ] = useState([]);
+export function usePostsImg() {
+  const dispatch = useDispatch();
+
+  const postImg = useSelector(state => state.photosReducer.photos);
+  const postLoading = useSelector(state => state.photosReducer.loading);
+
+  console.log('usePostsImg', postImg, postLoading)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://www.reddit.com/r/rusAskReddit/best.json?limit=${limit}`);
-        if (response.status === 401) {
-          throw new Error('Unauthorized');
-        }
-        const data = await response.json();
-        if (data.data.children) {
-          setPosts(data.data.children);
-        } else {
-          setPosts('ничего нету');
-        }
-      } catch (err) {
-        setPosts('ошибка');
-        console.error(err);
-      }
-    };
-
-    fetchData();
+    dispatch(getPhotosAsync());
   }, []);
 
-  return [ posts, setPosts ];
+  return [postImg, postLoading];
 }

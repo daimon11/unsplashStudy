@@ -5,7 +5,7 @@ import Logo from './Logo/';
 import Search from './Search';
 import Auth from './Auth';
 import Heading from './Heading';
-
+import Likes from './Likes';
 
 export const Header = () => (
   <header className={style.header}>
@@ -14,6 +14,7 @@ export const Header = () => (
         <Logo />
         <Heading text='Главная' />
         <Search />
+        <Likes/>
         <Auth />
       </div>
     </Layout>
