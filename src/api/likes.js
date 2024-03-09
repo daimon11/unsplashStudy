@@ -1,5 +1,6 @@
 export const setLikes = (arr) => {
   localStorage.setItem('likes', JSON.stringify(arr));
+  console.log('setLikes', arr);
 };
 
 export const getLikes = () => {

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { getLikes, setLikes } from '../../../../api/likes';
 import { usePostsImg } from '../../../../hooks/usePosts';
 import style from './List.module.css';
@@ -5,19 +6,24 @@ import PostImg from './PostImg';
 
 
 export const List = () => {
-  const likes = getLikes();
+  const [favorites, setFavorites] = useState(getLikes());
+  console.log('favorites', favorites);
 
-  console.log('likes', likes);
+  let updateFavorite = [];
 
   const [postImg, postLoading] = usePostsImg();
 
   const handleLike = (photoId) => {
-    console.log('handleLike', photoId)
-
-    if (likes.includes(photoId)) {
-      likes.filter(item => item !== photoId);
+    if (favorites.includes(photoId)) {
+      console.log('удалить handleLike', photoId);
+      updateFavorite = favorites.filter(item => item !== photoId);
+      setFavorites(updateFavorite);
+      setLikes(updateFavorite);
     } else {
-      setLikes([...likes, photoId]);
+      console.log('добавить handleLike', photoId);
+      updateFavorite = [...favorites, photoId];
+      setFavorites(updateFavorite);
+      setLikes(updateFavorite);
     }
   };
 
@@ -26,12 +32,12 @@ export const List = () => {
       <ul className={style.list}>{postImg.map(item => <PostImg
         props={item}
         handleLike={handleLike}
-        isLiked={likes.includes(item.id)}
+        isLiked={favorites.includes(item.id)}
       />)}</ul>
 
       <div class="center">
         <button className={style.btn_load}>{'Загрузить еще...'}</button>
       </div >
-    </>
+    </>;
 };
 
