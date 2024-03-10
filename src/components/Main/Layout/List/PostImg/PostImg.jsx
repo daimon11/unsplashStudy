@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
 import style from './PostImg.module.css';
 
 export const PostImg = ({ props, handleLike, isLiked }) => {
-  const [photos, setPhotos] = useState([]);
 
   return (
     <li
@@ -14,7 +12,7 @@ export const PostImg = ({ props, handleLike, isLiked }) => {
         alt={props.description} />
       <button
         className={style.likeButton}
-        onClick={() => handleLike(props.id)}>
+        onClick={() => handleLike(props)}>
         {isLiked ? '❤️' : '🤍'}
       </button>
     </li>

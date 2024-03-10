@@ -22,15 +22,13 @@ export const getPhotosError = (error) => ({
   error,
 });
 
-export const getPhotosAsync = () => (dispatch, getState) => {
+export const getPhotosAsync = (page = 1) => (dispatch, getState) => {
+  console.log('getPhotosAsync page', page);
   const token = getState().tokenReducer.token.token;
   dispatch(getPhotosStart());
 
-  console.log('getPhotosAsync token', token);
-
-
   console.log('!!! нету токена');
-  axios.get(`${API_URL_IMG}client_id=${ACCESS_KEY}&per_page=20`, token ? {
+  axios.get(`${API_URL_IMG}client_id=${ACCESS_KEY}&page=${page}&per_page=20`, token ? {
     headers: {
       'Authorization': `Bearer ${token}`
     }

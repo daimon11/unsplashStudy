@@ -9,6 +9,7 @@ const initialState = {
   loading: true,
   photos: [],
   error: null,
+  page: 1,
 };
 
 export const photosReducer = (state = initialState, action) => {

@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import style from './Likes.module.css';
 
 export const Likes = () => {
-  return <a href='/likes' className={style.likes_btn}>{'❤️'}</a>
+  return <Link to='/likes' className={style.likes_btn}>{'❤️'}</Link>;
 };

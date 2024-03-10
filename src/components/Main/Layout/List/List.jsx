@@ -1,43 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getLikes, setLikes } from '../../../../api/likes';
 import { usePostsImg } from '../../../../hooks/usePosts';
 import style from './List.module.css';
 import PostImg from './PostImg';
-
+import { useLocation } from 'react-router-dom';
 
 export const List = () => {
   const [favorites, setFavorites] = useState(getLikes());
-  console.log('favorites', favorites);
+  const [postLoading, setPostLoading] = useState(true);
+  const [postImg, setPostImg] = useState([]);
 
-  let updateFavorite = [];
+  const location = useLocation().pathname.substring(1);
 
-  const [postImg, postLoading] = usePostsImg();
+  const [posts, loading] = usePostsImg(); // Вызов хука здесь
 
-  const handleLike = (photoId) => {
-    if (favorites.includes(photoId)) {
-      console.log('удалить handleLike', photoId);
-      updateFavorite = favorites.filter(item => item !== photoId);
-      setFavorites(updateFavorite);
-      setLikes(updateFavorite);
+  useEffect(() => {
+    if (location) {
+      setPostLoading(false);
+      setPostImg(favorites);
     } else {
-      console.log('добавить handleLike', photoId);
-      updateFavorite = [...favorites, photoId];
-      setFavorites(updateFavorite);
-      setLikes(updateFavorite);
+      setPostLoading(loading);
+      setPostImg(posts);
     }
+  }, [location, favorites, posts, loading]);
+
+  const handleLike = (dataImg) => {
+    const isLiked = favorites.some(favorite => favorite.id === dataImg.id);
+
+    const updatedFavorites = isLiked
+      ? favorites.filter(item => item.id !== dataImg.id)
+      : [dataImg, ...favorites];
+
+    setFavorites(updatedFavorites);
+    setLikes(updatedFavorites);
   };
 
-  return postLoading ? 'ЗАГРУЗКА' :
+  return postLoading ? 'ЗАГРУЗКА' : (
     <>
-      <ul className={style.list}>{postImg.map(item => <PostImg
-        props={item}
-        handleLike={handleLike}
-        isLiked={favorites.includes(item.id)}
-      />)}</ul>
+      <ul className={style.list}>
+        {postImg.map(item => (
+          <PostImg
+            key={item.id}
+            props={item}
+            handleLike={handleLike}
+            isLiked={favorites.some(favorite => favorite.id === item.id)}
+          />
+        ))}
+      </ul>
 
-      <div class="center">
-        <button className={style.btn_load}>{'Загрузить еще...'}</button>
-      </div >
-    </>;
+      {!location && (
+        <div className="center">
+          <button className={style.btn_load}>{'Загрузить еще...'}</button>
+        </div>
+      )}
+    </>
+  );
 };
-

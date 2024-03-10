@@ -3,7 +3,6 @@ import { AuthLogo } from './AuthLogo/AuthLogo';
 import { Text } from '../../../UI/Text';
 import { urlAuth } from '../../../api/const';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { deleteToken } from '../../../store/tokenReducer';
 import { delToken } from '../../../api/token';
 
