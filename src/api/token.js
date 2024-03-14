@@ -3,6 +3,7 @@ import {
   CLIENT_SECRET,
   REDIRECT_URI,
   ACCESS_KEY,
+  API_URL,
 } from './const';
 import { useDispatch } from 'react-redux';
 import { updateToken } from '../store/tokenReducer';
@@ -24,6 +25,21 @@ export const setToken = ({ token, username }) => {
     username: username,
   };
   localStorage.setItem('bearer', JSON.stringify(userData));
+};
+
+const getUserData = (token) => {
+  axios.get(`${API_URL}me`,
+    {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      console.log('getUserData', response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 };
 
 export const getToken = () => {
@@ -62,6 +78,7 @@ export const getToken = () => {
         cleanUrl();
 
         dispatch(updateToken(token));
+        getUserData(token.token);
       })
       .catch(error => {
         console.error(error);

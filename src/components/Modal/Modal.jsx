@@ -1,19 +1,19 @@
 import style from './Modal.module.css';
 import PropTypes from 'prop-types';
 import { ReactComponent as CloseIcon } from './img/close.svg';
-import Markdown from 'markdown-to-jsx';
+// import Markdown from 'markdown-to-jsx';
 import ReactDOM from 'react-dom';
 import { useEffect, useRef } from 'react';
-import { useCommentsData } from '../../hooks/useCommentsData';
+// import { useCommentsData } from '../../hooks/useCommentsData';
 
-import { Comments } from './Comments/Comments.jsx';
-import { FormComment } from './FormComment/FormComment.jsx';
 
-export const Modal = ({ id, closeModal }) => {
-  const { postData, commentsData, loading } = useCommentsData(id);
-  console.log('postData = ', postData);
-  console.log('commentsData = ', commentsData);
-  console.log('Comments', Comments);
+export const Modal = ({ props, closeModal }) => {
+  // const { postData, commentsData, loading } = useCommentsData(id);
+
+  console.log('modal', props);
+
+  const loading = false;
+
   const overlayRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -24,15 +24,16 @@ export const Modal = ({ id, closeModal }) => {
       target === buttonRef.current ||
       target.closest('.closeIcon')) {
       closeModal();
+      console.log('закрыть');
     }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Escape') {
       closeModal();
+      console.log('закрыть');
     }
   };
-
 
   useEffect(() => {
     document.addEventListener('click', handleClick);
@@ -54,31 +55,20 @@ export const Modal = ({ id, closeModal }) => {
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
         {loading ? 'Загрузка...' :
-          (<div> <h2 className={style.title}>{postData.title}</h2>
-            <img src={postData.url} width={400} />
+          (<div> <h2 className={style.title}>{props.alt_description}</h2>
+            <img className={style.img} src={props.urls.regular} width={400} />
             <div className={style.content}>
-              <Markdown options={
-                {
-                  overrides: {
-                    a: {
-                      props: {
-                        target: '_blanck',
-                      }
-                    }
-                  }
-                }}>
-                {postData.selftext}
-              </Markdown>
             </div>
 
-            <p className={style.author}>{postData.author}</p>
+            <p className={style.author}>{props.user.name}</p>
 
-            <button className={style.close} ref={buttonRef}>
+            <button
+              className={style.close}
+              ref={buttonRef}
+              onClick={handleClick}>
               <CloseIcon />
             </button>
 
-            <FormComment />
-            <Comments comments={commentsData} />
           </div>
 
           )

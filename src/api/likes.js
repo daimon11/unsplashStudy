@@ -9,9 +9,7 @@ export const getLikes = () => {
   if (localStorage.getItem('likes')) {
     const likesStorage = JSON.parse(localStorage.getItem('likes'));
 
-    console.log('likes likesStorage', likesStorage);
-
-    likes = likesStorage;
+    likes = [...likes, ...likesStorage];
   }
 
   return likes;

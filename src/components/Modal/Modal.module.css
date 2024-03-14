@@ -22,6 +22,11 @@
   padding-right: 50px;
 }
 
+.img {
+  max-height: 300px;
+  width: auto;
+}
+
 .author {
   margin-bottom: 20px;
 }
@@ -58,7 +63,7 @@
   .modal h2 {
     font-size: 24px;
   }
-  
+
   .modal p {
     font-size: 16px;
   }
@@ -66,7 +71,7 @@
   .author {
     margin-bottom: 30px;
   }
-  
+
 }
 
 @media (min-width: 1024px) {

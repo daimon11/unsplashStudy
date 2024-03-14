@@ -1,0 +1,8 @@
+// import style from './ListLikes.module.css';
+
+export const ListLikes = () => (
+  console.log(style);
+  return (
+    <div></div>
+  );
+);

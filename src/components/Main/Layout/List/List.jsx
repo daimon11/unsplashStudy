@@ -6,13 +6,14 @@ import PostImg from './PostImg';
 import { useLocation } from 'react-router-dom';
 
 export const List = () => {
+
   const [favorites, setFavorites] = useState(getLikes());
   const [postLoading, setPostLoading] = useState(true);
   const [postImg, setPostImg] = useState([]);
 
   const location = useLocation().pathname.substring(1);
 
-  const [posts, loading] = usePostsImg(); // Вызов хука здесь
+  const [posts, loading, postPage] = usePostsImg();
 
   useEffect(() => {
     if (location) {
@@ -49,7 +50,7 @@ export const List = () => {
       </ul>
 
       {!location && (
-        <div className="center">
+        <div className={style.center}>
           <button className={style.btn_load}>{'Загрузить еще...'}</button>
         </div>
       )}

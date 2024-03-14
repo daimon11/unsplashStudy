@@ -9,10 +9,12 @@ const initialState = {
   loading: true,
   photos: [],
   error: null,
-  page: 1,
+  page: 0,
 };
 
 export const photosReducer = (state = initialState, action) => {
+
+  console.log('!!!!!! state', state, 'action', action.data);
 
   switch (action.type) {
     case GET_PHOTOS_START:
@@ -25,6 +27,7 @@ export const photosReducer = (state = initialState, action) => {
         loading: false,
         photos: action.data,
         error: '',
+        page: state.page + 1,
       };
     case GET_PHOTOS_ERROR:
       return {

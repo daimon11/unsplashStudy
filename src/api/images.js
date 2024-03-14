@@ -12,9 +12,10 @@ export const getPhotosStart = () => ({
   type: GET_PHOTOS_START,
 });
 
-export const getPhotosSucces = (data) => ({
+export const getPhotosSucces = (data, page = 1) => ({
   type: GET_PHOTOS_SUCCESS,
   data,
+  page,
 });
 
 export const getPhotosError = (error) => ({
@@ -34,8 +35,9 @@ export const getPhotosAsync = (page = 1) => (dispatch, getState) => {
     }
   } : '')
     .then(response => {
-      console.log('images', response.data);
-      dispatch(getPhotosSucces([...response.data]));
+      page > 1 ?
+        dispatch(getPhotosSucces([...response.data]), page) :
+        dispatch(getPhotosSucces([...response.data]));
     })
     .catch(error => {
       console.error(error);
