@@ -25,7 +25,7 @@ export const Auth = () => {
           {auth.userName}
         </Text>
         <img
-          src={'https://i.ytimg.com/vi/HUKluokvPmE/hqdefault.jpg'}
+          src={auth.userImg}
           className={style.img} />
         <button
           className={style.btn_logout}

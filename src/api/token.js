@@ -5,8 +5,8 @@ import {
   ACCESS_KEY,
   API_URL,
 } from './const';
-import { useDispatch } from 'react-redux';
-import { updateToken } from '../store/tokenReducer';
+import {useDispatch} from 'react-redux';
+import {updateToken} from '../store/tokenReducer';
 
 const cleanUrl = () => {
   const url = window.location.href;
@@ -24,10 +24,6 @@ export const setToken = (token) => {
 };
 
 const getUserData = (token, dispatch) => {
-  console.log('getUserData', token);
-
-
-
   axios.get(`${API_URL}me`,
     {
       headers: {
@@ -39,16 +35,12 @@ const getUserData = (token, dispatch) => {
       const tokenData = {
         token: token.token,
         userName: response.data.username,
-        userImg: response.data.profile_image.small,
+        userImg: response.data.profile_image.medium,
       };
 
-
-      //!!! вот здесь завтра необходимо додумать
-
-
       console.log('getUserData !!!', tokenData, token);
-      setToken(token);
-      dispatch(updateToken(token));
+      setToken(tokenData);
+      dispatch(updateToken(tokenData));
     })
     .catch(error => {
       console.error(error);
@@ -68,7 +60,7 @@ export const getToken = () => {
       token = {
         token: userData.token,
         userName: userData.userName,
-        userImg: userData.userimg,
+        userImg: userData.userImg,
       } :
       token = {};
   }
