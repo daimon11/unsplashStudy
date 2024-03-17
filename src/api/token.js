@@ -18,24 +18,37 @@ export const delToken = () => {
   localStorage.removeItem('bearer');
 };
 
-export const setToken = ({ token, username }) => {
-  console.log('setToken', token, username);
-  const userData = {
-    token: token,
-    username: username,
-  };
-  localStorage.setItem('bearer', JSON.stringify(userData));
+export const setToken = (token) => {
+  console.log('setToken', token);
+  localStorage.setItem('bearer', JSON.stringify(token));
 };
 
-const getUserData = (token) => {
+const getUserData = (token, dispatch) => {
+  console.log('getUserData', token);
+
+
+
   axios.get(`${API_URL}me`,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token.token}`
       }
     })
     .then(response => {
       console.log('getUserData', response.data);
+      const tokenData = {
+        token: token.token,
+        userName: response.data.username,
+        userImg: response.data.profile_image.small,
+      };
+
+
+      //!!! вот здесь завтра необходимо додумать
+
+
+      console.log('getUserData !!!', tokenData, token);
+      setToken(token);
+      dispatch(updateToken(token));
     })
     .catch(error => {
       console.error(error);
@@ -43,15 +56,20 @@ const getUserData = (token) => {
 };
 
 export const getToken = () => {
-  let token = '';
   const dispatch = useDispatch();
+
+  let token = '';
 
   if (localStorage.getItem('bearer')) {
     const userData = JSON.parse(localStorage.getItem('bearer'));
 
     console.log('userData', userData);
     userData.token ?
-      token = { token: userData.token, username: userData.username } :
+      token = {
+        token: userData.token,
+        userName: userData.userName,
+        userImg: userData.userimg,
+      } :
       token = {};
   }
   if (window.location.search.includes('code')) {
@@ -63,7 +81,7 @@ export const getToken = () => {
       client_id: ACCESS_KEY,
       client_secret: CLIENT_SECRET,
       redirect_uri: REDIRECT_URI,
-      code: code,
+      code,
       grant_type: `authorization_code`,
     };
 
@@ -72,13 +90,10 @@ export const getToken = () => {
         console.log('token', response.data);
         token = {
           token: response.data.access_token,
-          username: response.data.username
+          userName: response.data.username,
         };
-        setToken(token);
         cleanUrl();
-
-        dispatch(updateToken(token));
-        getUserData(token.token);
+        getUserData(token, dispatch);
       })
       .catch(error => {
         console.error(error);

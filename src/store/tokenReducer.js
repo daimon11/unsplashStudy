@@ -4,12 +4,11 @@ const UPDATE_TOKEN = 'UPDATE_TOKEN';
 const DELETE_TOKEN = 'DELETE_TOKEN';
 
 const initialState = {
-  comment: 'Привет Redux',
   token: '',
 };
 
 export const updateToken = token => ({
-  type: 'UPDATE_TOKEN',
+  type: UPDATE_TOKEN,
   token,
 });
 

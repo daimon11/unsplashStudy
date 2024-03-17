@@ -19,10 +19,10 @@ export const Auth = () => {
   console.log('auth', auth);
 
   return (<div className={style.button}>
-    {auth.username ?
+    {auth.userName ?
       <div className={style.user_wrapper}>
         <Text>
-          {auth.username}
+          {auth.userName}
         </Text>
         <img
           src={'https://i.ytimg.com/vi/HUKluokvPmE/hqdefault.jpg'}
