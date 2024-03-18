@@ -6,6 +6,7 @@ import axios from 'axios';
 
 export const GET_PHOTOS_START = 'AUTH_REQUEST';
 export const GET_PHOTOS_SUCCESS = 'AUTH_REQUEST_SUCCESS';
+export const GET_PHOTOS_SUCCESS_AFTER = 'GET_PHOTOS_SUCCESS_AFTER';
 export const GET_PHOTOS_ERROR = 'AUTH_REQUEST_ERROR';
 
 export const getPhotosStart = () => ({
@@ -14,6 +15,12 @@ export const getPhotosStart = () => ({
 
 export const getPhotosSucces = (data, page = 1) => ({
   type: GET_PHOTOS_SUCCESS,
+  data,
+  page,
+});
+
+export const getPhotosSuccesAfter = (data, page = 1) => ({
+  type: GET_PHOTOS_SUCCESS_AFTER,
   data,
   page,
 });
@@ -36,8 +43,8 @@ export const getPhotosAsync = (page = 1) => (dispatch, getState) => {
   } : '')
     .then(response => {
       page > 1 ?
-        dispatch(getPhotosSucces([...response.data]), page) :
-        dispatch(getPhotosSucces([...response.data]));
+        dispatch(getPhotosSuccesAfter([...response.data], page)) :
+        dispatch(getPhotosSucces([...response.data], page));
     })
     .catch(error => {
       console.error(error);
